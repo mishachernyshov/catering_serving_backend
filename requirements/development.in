@@ -1,0 +1,10 @@
+-r base.txt
+-c constraints.txt
+
+black
+flake8
+isort
+mypy
+pip-tools
+pre-commit
+pylint

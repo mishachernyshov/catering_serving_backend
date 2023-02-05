@@ -1,0 +1,5 @@
+-c constraints.txt
+
+dj-database-url
+Django
+django-configurations
