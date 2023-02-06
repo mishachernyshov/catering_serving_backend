@@ -9,6 +9,7 @@ def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
     os.environ.setdefault('DJANGO_CONFIGURATION', 'Dev')
     try:
+        # pylint: disable=import-outside-toplevel
         from configurations.management import execute_from_command_line
     except ImportError as exc:
         raise ImportError(

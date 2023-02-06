@@ -12,8 +12,7 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 os.environ.setdefault('DJANGO_CONFIGURATION', 'Prod')
 
-
-from configurations.wsgi import get_wsgi_application
+from configurations.wsgi import get_wsgi_application  # pylint: disable=wrong-import-position
 
 
 application = get_wsgi_application()

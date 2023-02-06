@@ -16,6 +16,10 @@ from configurations import Configuration, values
 
 
 class Dev(Configuration):
+    """
+    Project configuration for development environment.
+    """
+
     # Build paths inside the project like this: BASE_DIR / 'subdir'.
     BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -122,5 +126,9 @@ class Dev(Configuration):
 
 
 class Prod(Dev):
+    """
+    Project configuration for production environment.
+    """
+
     DEBUG = False
     SECRET_KEY = values.SecretValue()
