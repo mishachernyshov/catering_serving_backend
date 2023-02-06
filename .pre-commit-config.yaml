@@ -1,3 +1,6 @@
+default_language_version:
+    python: python3.10
+
 repos:
   - repo: local
     hooks:
@@ -5,15 +8,13 @@ repos:
         name: black
         entry: black
         language: python
-        language_version: python3.10
         additional_dependencies: ["black==23.1.0"]
         types: [python]
-        args: [--line-length=120, --target-version=py310 -S]
+        args: [--line-length=120, -S]
       - id: isort
         name: isort
         entry: isort
         language: python
-        language_version: python3.10
         additional_dependencies: ["isort==5.11.5"]
         types: [python]
         args: [--check-only]
@@ -21,33 +22,15 @@ repos:
         name: flake8
         entry: flake8
         language: python
-        language_version: python3.10
         additional_dependencies: ["flake8==6.0.0"]
         types: [python]
       - id: pylint
         name: pylint
         entry: pylint
-        language: python
-        language_version: python3.10
-        additional_dependencies: ["pylint==2.16.1"]
+        language: system
         types: [python]
       - id: mypy
-        name: mypy0.991
+        name: mypy
         entry: mypy
-        language: python
-        language_version: python3.10
-        additional_dependencies: ["mypy==0.991"]
+        language: system
         types: [python]
-#  - repo: 'https://github.com/python/mypy'
-#    rev: v0.991
-#    hooks:
-#      - id: mypy
-#  - repo: 'https://github.com/PyCQA/flake8'
-#    rev: 6.0.0
-#    hooks:
-#      - id: flake8
-#  - repo: 'https://github.com/PyCQA/isort'
-#    rev: 5.11.5
-#    hooks:
-#      - id: isort
-#        args: [--check-only]
