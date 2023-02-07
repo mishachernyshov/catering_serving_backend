@@ -1,0 +1,19 @@
+FROM python:3.10-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+RUN mkdir -p /catering_serving/source
+WORKDIR /catering_serving/source
+COPY requirements/development.txt .
+
+RUN apt-get update \
+    && apt-get install -y \
+    gcc \
+    libpq-dev \
+    && pip install -U pip \
+    && pip install --no-cache-dir -r development.txt
+
+COPY source .
+
+ENTRYPOINT ["entrypoints/entrypoint.sh"]
