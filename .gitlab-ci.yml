@@ -1,0 +1,20 @@
+image: docker:stable
+
+stages:
+  - linting
+
+services:
+  - docker:stable-dind
+
+.cleanup:
+  after_script:
+    - docker rmi --force catering_serving
+
+pylint:
+  extends: .cleanup
+  stage: linting
+  script:
+    - docker build -t catering_serving -f docker/Dockerfile.dev .
+    - docker run --name cs_pylint pylint
+  after_script:
+    - docker rm --force cs_pylint
