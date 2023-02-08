@@ -15,5 +15,7 @@ RUN apt-get update \
     && pip install --no-cache-dir -r development.txt
 
 COPY source .
+COPY requirements ../requirements/
+COPY envs ../envs/
 
 ENTRYPOINT ["entrypoints/entrypoint.sh"]
