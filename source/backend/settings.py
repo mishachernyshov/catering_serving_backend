@@ -9,10 +9,13 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 from configurations import Configuration, values
+
+PROJ_DIR = Path(__file__).resolve().parent.parent
+REPO_DIR = PROJ_DIR.parent
 
 
 class Dev(Configuration):
@@ -20,8 +23,7 @@ class Dev(Configuration):
     Project configuration for development environment.
     """
 
-    # Build paths inside the project like this: BASE_DIR / 'subdir'.
-    BASE_DIR = Path(__file__).resolve().parent.parent
+    DOTENV = os.path.join(REPO_DIR, 'envs', 'web.env')
 
     # Quick-start development settings - unsuitable for production
     # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -79,9 +81,14 @@ class Dev(Configuration):
     # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+        "default": {
+            "CONN_MAX_AGE": 0,
+            "ENGINE": values.Value("django.db.backends.postgresql", environ_name="DB_ENGINE"),
+            "HOST": values.Value("db", environ_name="DB_HOST"),
+            "NAME": values.Value("postgres", environ_name="DB_NAME"),
+            "PASSWORD": values.Value("strong_password", environ_name="DB_PASSWORD"),
+            "PORT": values.IntegerValue(5432, environ_name="DB_PORT"),
+            "USER": values.Value("postgres", environ_name="DB_USER"),
         }
     }
 
