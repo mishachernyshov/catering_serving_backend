@@ -6,17 +6,16 @@
 #
 asgiref==3.6.0
     # via django
-dj-database-url==1.2.0
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/base.in
 django==4.1.6
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.in
-    #   dj-database-url
     #   django-configurations
 django-configurations==2.4
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.in
+psycopg2==2.9.5
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.in

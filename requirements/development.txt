@@ -26,15 +26,10 @@ dill==0.3.6
     # via pylint
 distlib==0.3.6
     # via virtualenv
-dj-database-url==1.2.0
-    # via
-    #   -c requirements/constraints.txt
-    #   -r requirements/base.txt
 django==4.1.6
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
-    #   dj-database-url
     #   django-configurations
 django-configurations==2.4
     # via
@@ -88,6 +83,10 @@ pre-commit==3.0.4
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/development.in
+psycopg2==2.9.5
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.txt
 pycodestyle==2.10.0
     # via flake8
 pyflakes==3.0.1
