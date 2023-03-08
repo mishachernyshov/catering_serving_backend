@@ -37,3 +37,4 @@ repos:
         entry: mypy
         language: system
         types: [python]
+        args: [--ignore-missing-imports]
