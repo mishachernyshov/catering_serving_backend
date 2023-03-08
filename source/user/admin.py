@@ -1,0 +1,3 @@
+"""
+User administration module.
+"""

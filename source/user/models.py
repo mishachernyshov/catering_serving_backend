@@ -1,0 +1,3 @@
+"""
+User module models.
+"""
