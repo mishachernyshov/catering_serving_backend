@@ -25,7 +25,7 @@ class UserBalanceChange(models.Model):
     User balance changing values.
     """
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     amount = models.FloatField()
     transaction_datetime = models.DateTimeField()
 
