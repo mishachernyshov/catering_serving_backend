@@ -22,6 +22,7 @@ urlpatterns = (
         path('work_hours/', views.CateringEstablishmentWorkHoursView.as_view()),
         path('representation/', views.CateringEstablishmentsRepresentationView.as_view()),
         path('pay_for_booking/', views.BookingPaymentCreateView.as_view()),
+        path('bookings_statistics/', views.BookingsStatisticsView.as_view()),
     ]
     + non_root_router.urls
     + root_router.urls

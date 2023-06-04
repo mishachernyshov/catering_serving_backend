@@ -72,3 +72,24 @@ class OrderUpdateView(APIView):
         delete_booking_related_ordered_dishes(data['booking'])
         bulk_create_ordered_dishes(data['booking'], data['ordered_dishes'])
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class DishesOrderingStatisticsView(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = dish_serializers.DishOrderingStatisticsSerializer
+    pagination_class = None
+
+    def get_queryset(self):
+        filters = {
+            'catering_establishment_dishes__catering_establishment__owner': self.request.user,
+            'catering_establishment_dishes__ordered_dishes__booking__start_datetime__gte': (
+                self.request.query_params.get('start_date')
+            ),
+            'catering_establishment_dishes__ordered_dishes__booking__end_datetime__lte': (
+                self.request.query_params.get('end_date')
+            ),
+        }
+        if catering_establishment := self.request.query_params.get('catering_establishment'):
+            filters['catering_establishment_dishes__catering_establishment'] = catering_establishment
+
+        return dish_models.Dish.objects.filter(**filters).with_ordering_count().order_by('-orders_count')

@@ -10,4 +10,5 @@ urlpatterns = [
     path('menu/', views.CateringEstablishmentMenuView.as_view()),
     path('populate_order/', views.OrderPopulationView.as_view()),
     path('update_order/', views.OrderUpdateView.as_view()),
+    path('dishes_ordering_statistics/', views.DishesOrderingStatisticsView.as_view()),
 ]

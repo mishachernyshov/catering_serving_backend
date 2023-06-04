@@ -27,7 +27,8 @@ from dish.models import CateringEstablishmentDish
 
 
 class CateringEstablishmentViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
-    def create(self, request, *args, **kwargs):
+    @action(detail=False, methods=('post',), url_path='create_new')
+    def create_new(self, request, *args, **kwargs):
         data = request.data
         data['owner'] = request.user.id
         catering_establishment = create_catering_establishment_with_related_models(data)
@@ -43,7 +44,7 @@ class CateringEstablishmentViewSet(CreateModelMixin, RetrieveModelMixin, UpdateM
 
     def get_permissions(self):
         match self.action:
-            case 'create':
+            case 'create_new':
                 return (IsAuthenticated(),)
             case 'retrieve_main_info':
                 return ((IsAuthenticated | IsVisible)(),)
@@ -135,23 +136,26 @@ class CateringEstablishmentUserRatingView(APIView):
         )
 
     def post(self, request):
-        serializer = serializers.CateringEstablishmentUserRatingSerializer(data=request.data)
+        data = request.data
+        data['visitor'] = request.user.id
+        serializer_class = serializers.CateringEstablishmentUserRatingSerializer
+        try:
+            rating = ce_models.CateringEstablishmentRating.objects.get(
+                catering_establishment=data.get('catering_establishment'),
+                visitor=data['visitor'],
+            )
+            serializer = serializer_class(rating, data=data)
+        except ce_models.CateringEstablishmentRating.DoesNotExist:
+            serializer = serializer_class(data=data)
         serializer.is_valid(raise_exception=True)
-        validated_data = serializer.validated_data
-        ce_models.CateringEstablishmentRating.objects.update_or_create(
-            catering_establishment=validated_data['catering_establishment'],
-            visitor=request.user,
-            defaults={'rating': validated_data['rating']},
+        serializer.save()
+
+        avg_rating = (
+            ce_models.CateringEstablishment.objects.with_avg_rating()
+            .get(id=serializer.validated_data['catering_establishment'].id)
+            .rating
         )
-        return Response(
-            {
-                'avg_rating': (
-                    ce_models.CateringEstablishment.objects.with_avg_rating()
-                    .get(id=validated_data['catering_establishment'].id)
-                    .rating
-                )
-            }
-        )
+        return Response({'avg_rating': avg_rating})
 
 
 class CateringEstablishmentFeedbacksView(ListCreateAPIView):
@@ -222,3 +226,20 @@ class BookingViewSet(CreateModelMixin, UpdateModelMixin, ListModelMixin, Generic
 class BookingPaymentCreateView(CreateAPIView):
     permission_classes = (IsAuthenticated, IsBookingAuthor)
     serializer_class = serializers.BookingPaymentSerializer
+
+
+class BookingsStatisticsView(ListAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = serializers.EstablishmentBookingsCountSerializer
+    pagination_class = None
+
+    def get_queryset(self):
+        return (
+            ce_models.CateringEstablishment.objects.filter(
+                owner=self.request.user,
+                tables__bookings__start_datetime__gte=self.request.query_params.get('start_date'),
+                tables__bookings__end_datetime__lte=self.request.query_params.get('end_date'),
+            )
+            .with_bookings_count()
+            .order_by('-bookings_count')
+        )

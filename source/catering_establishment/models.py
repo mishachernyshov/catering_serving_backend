@@ -5,7 +5,7 @@ from datetime import datetime
 
 from django.conf import settings
 from django.db import models
-from django.db.models import Avg, ExpressionWrapper, F, Q
+from django.db.models import Avg, Count, ExpressionWrapper, F, Q
 from django.db.models.functions import Coalesce
 from django_extensions.db.models import TimeStampedModel
 
@@ -45,6 +45,9 @@ class CateringEstablishmentQuerySet(models.QuerySet):
 
     def with_tables_characteristics(self):
         return super().prefetch_related('tables')
+
+    def with_bookings_count(self):
+        return super().annotate(bookings_count=Count('tables__bookings'))
 
 
 class CateringEstablishmentManager(models.Manager):
@@ -98,6 +101,9 @@ class CateringEstablishmentManager(models.Manager):
     def with_tables_characteristics(self):
         return self.get_queryset().with_tables_characteristics()
 
+    def with_bookings_count(self):
+        return self.get_queryset().with_bookings_count()
+
 
 class CateringEstablishment(models.Model):
     """
@@ -144,7 +150,7 @@ class CateringEstablishmentRating(models.Model):
         return f'{self.catering_establishment} - {self.visitor}'
 
     class Meta:
-        unique_together = ('catering_establishment', 'rating')
+        unique_together = ('catering_establishment', 'visitor')
 
 
 class CateringEstablishmentFeedback(TimeStampedModel):

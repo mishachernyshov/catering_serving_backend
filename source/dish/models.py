@@ -33,10 +33,25 @@ class Food(models.Model):
         return self.name
 
 
+class DishQuerySet(models.QuerySet):
+    def with_ordering_count(self):
+        return super().annotate(orders_count=models.Count('catering_establishment_dishes__ordered_dishes'))
+
+
+class DishManager(models.Manager):
+    def get_queryset(self):
+        return DishQuerySet(self.model, using=self._db)
+
+    def with_ordering_count(self):
+        return self.get_queryset().with_ordering_count()
+
+
 class Dish(models.Model):
     name = models.CharField(max_length=64)
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
     subcategory = models.ForeignKey(DishSubcategory, on_delete=models.CASCADE, related_name='dishes')
+
+    objects = DishManager()
 
     def __str__(self):
         return self.name

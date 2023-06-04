@@ -63,7 +63,7 @@ class CateringEstablishmentSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         catering_establishment_data = self._get_catering_establishment_data(validated_data)
         catering_establishment_data['address'] = Address.objects.create(**validated_data['address'])
-        catering_establishment_data['work_hours'] = ce_models.WorkHours.objects.create(validated_data['work_hours'])
+        catering_establishment_data['work_hours'] = ce_models.WorkHours.objects.create(**validated_data['work_hours'])
 
         catering_establishment = ce_models.CateringEstablishment.objects.create(**catering_establishment_data)
 
@@ -253,7 +253,7 @@ class CateringEstablishmentMainInfoSerializer(serializers.Serializer):
 class CateringEstablishmentUserRatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = ce_models.CateringEstablishmentRating
-        fields = ('rating', 'catering_establishment')
+        fields = ('rating', 'catering_establishment', 'visitor')
 
 
 class CateringEstablishmentFeedbackInfoSerializer(serializers.ModelSerializer):
@@ -307,3 +307,11 @@ class BookingPaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ce_models.BookingPayment
         fields = '__all__'
+
+
+class EstablishmentBookingsCountSerializer(serializers.ModelSerializer):
+    bookings_count = serializers.IntegerField()
+
+    class Meta:
+        model = ce_models.CateringEstablishment
+        fields = ('name', 'bookings_count')

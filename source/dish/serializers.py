@@ -111,3 +111,11 @@ class OrderedDishWithFinalPriceSerializer(serializers.ModelSerializer):
 class OrderUpdateSerializer(serializers.Serializer):
     booking = serializers.PrimaryKeyRelatedField(queryset=ce_models.Booking.objects.all())
     ordered_dishes = OrderedDishReadSerializer(many=True)
+
+
+class DishOrderingStatisticsSerializer(serializers.ModelSerializer):
+    orders_count = serializers.IntegerField()
+
+    class Meta:
+        model = dish_models.Dish
+        fields = ('name', 'orders_count')
