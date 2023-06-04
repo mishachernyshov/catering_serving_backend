@@ -11,3 +11,6 @@ class TimeRangedModel(models.Model):
 
     start_datetime = models.DateTimeField()
     end_datetime = models.DateTimeField()
+
+    class Meta:
+        abstract = True

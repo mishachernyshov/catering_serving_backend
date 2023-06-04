@@ -2,4 +2,10 @@
 
 Django
 django-configurations
+django-cors-headers
+django-extensions
+django-filter
+djangorestframework
+djangorestframework-simplejwt
+Pillow
 psycopg2

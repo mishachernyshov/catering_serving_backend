@@ -13,7 +13,37 @@ django==4.1.6
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
     #   django-configurations
+    #   django-cors-headers
+    #   django-extensions
+    #   django-filter
+    #   djangorestframework
+    #   djangorestframework-simplejwt
 django-configurations==2.4
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.txt
+django-cors-headers==3.7.0
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.txt
+django-extensions==3.2.1
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.txt
+django-filter==23.2
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.txt
+djangorestframework==3.14.0
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.txt
+    #   djangorestframework-simplejwt
+djangorestframework-simplejwt==5.2.2
+    # via
+    #   -c requirements/constraints.txt
+    #   -r requirements/base.txt
+pillow==9.4.0
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
@@ -21,6 +51,14 @@ psycopg2==2.9.5
     # via
     #   -c requirements/constraints.txt
     #   -r requirements/base.txt
+pyjwt==2.6.0
+    # via
+    #   -r requirements/base.txt
+    #   djangorestframework-simplejwt
+pytz==2023.3
+    # via
+    #   -r requirements/base.txt
+    #   djangorestframework
 sqlparse==0.4.3
     # via
     #   -r requirements/base.txt

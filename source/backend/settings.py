@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from configurations import Configuration, values
@@ -34,7 +35,8 @@ class Dev(Configuration):
     # SECURITY WARNING: don't run with debug turned on in production!
     DEBUG = values.BooleanValue(True)
 
-    ALLOWED_HOSTS = values.ListValue()
+    ALLOWED_HOSTS = values.ListValue(['*'])
+    CORS_ORIGIN_ALLOW_ALL = values.BooleanValue(True)
 
     # Application definition
 
@@ -47,16 +49,41 @@ class Dev(Configuration):
         'django.contrib.staticfiles',
         'user.apps.UserConfig',
         'catering_establishment.apps.CateringEstablishmentConfig',
+        'common.apps.CommonConfig',
+        'dish.apps.DishConfig',
+        'location.apps.LocationConfig',
+        'corsheaders',
+        'rest_framework',
+        'rest_framework_simplejwt',
+        'django_filters',
     ]
+
+    REST_FRAMEWORK = {
+        'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',),
+        'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
+        'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+        'DEFAULT_PAGINATION_CLASS': 'common.pagination.PageNumberPagination',
+    }
+
+    SIMPLE_JWT = {
+        'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+        'REFRESH_TOKEN_LIFETIME': timedelta(days=1, hours=6),
+        'ALGORITHM': 'HS256',
+        'SIGNING_KEY': SECRET_KEY,
+        'AUTH_HEADER_TYPES': ('JWT',),
+    }
 
     MIDDLEWARE = [
         'django.middleware.security.SecurityMiddleware',
         'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.locale.LocaleMiddleware',
         'django.middleware.common.CommonMiddleware',
-        'django.middleware.csrf.CsrfViewMiddleware',
         'django.contrib.auth.middleware.AuthenticationMiddleware',
         'django.contrib.messages.middleware.MessageMiddleware',
         'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'corsheaders.middleware.CorsMiddleware',
+        'user.middleware.UserDefinitionMiddleware',
+        'user.middleware.LocaleMiddleware',
     ]
 
     ROOT_URLCONF = 'backend.urls'
@@ -114,6 +141,9 @@ class Dev(Configuration):
 
     # Internationalization
     # https://docs.djangoproject.com/en/4.1/topics/i18n/
+    BASE_URL = 'http://localhost:8000'
+
+    LOCALE_PATHS = [PROJ_DIR / 'locale']
 
     LANGUAGE_CODE = 'en-us'
 
@@ -127,6 +157,10 @@ class Dev(Configuration):
     # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
     STATIC_URL = 'static/'
+    STATIC_ROOT = PROJ_DIR / 'static'
+
+    MEDIA_URL = 'media/'
+    MEDIA_ROOT = PROJ_DIR / 'media'
 
     # Default primary key field type
     # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

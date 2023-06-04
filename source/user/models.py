@@ -14,7 +14,8 @@ class UserProfile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birthday = models.DateField()
-    balance = models.FloatField()
+    balance = models.FloatField(editable=False, default=0)
+    language = models.CharField(blank=True, max_length=32, db_index=True)
 
     def __str__(self):
         return self.user.username  # pylint: disable=no-member
