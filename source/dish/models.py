@@ -17,6 +17,10 @@ class DishCategory(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = _("Dish category")
+        verbose_name_plural = _("Dish categories")
+
 
 class DishSubcategory(models.Model):
     name = models.CharField(max_length=32)
@@ -25,12 +29,20 @@ class DishSubcategory(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = _("Dish subcategory")
+        verbose_name_plural = _("Dish subcategories")
+
 
 class Food(models.Model):
     name = models.CharField(max_length=32)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = _("Food")
+        verbose_name_plural = _("Foods")
 
 
 class DishQuerySet(models.QuerySet):
@@ -55,6 +67,10 @@ class Dish(models.Model):
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = _("Dish")
+        verbose_name_plural = _("Dishes")
 
 
 class CateringEstablishmentDishQuerySet(models.QuerySet):

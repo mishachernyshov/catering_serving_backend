@@ -75,7 +75,7 @@ class CateringEstablishmentSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def _get_catering_establishment_data(validated_data):
-        fields = ('name', 'description', 'owner', 'is_visible')
+        fields = ('name', 'description', 'owner', 'is_visible', 'enterprise_number')
         data = {}
 
         for field in fields:
@@ -167,6 +167,7 @@ class CateringEstablishmentSerializer(serializers.ModelSerializer):
             'photos': self.get_photos_representation(instance),
             'tables': instance.tables.all().values('number', 'serving_clients_number'),
             'dishes': self.get_dishes_representation(instance),
+            'enterprise_number': instance.enterprise_number,
         }
 
     @staticmethod

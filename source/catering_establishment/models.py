@@ -112,6 +112,7 @@ class CateringEstablishment(models.Model):
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     name = models.CharField(max_length=CATERING_ESTABLISHMENTS_NAME_MAX_LENGTH)
+    enterprise_number = models.CharField(max_length=64, null=True, blank=True)
     description = models.TextField()
     balance = models.FloatField(editable=False, default=0)
     is_visible = models.BooleanField(default=True)
@@ -168,9 +169,6 @@ class CateringEstablishmentFeedback(TimeStampedModel):
 
     def __str__(self):
         return f'{self.catering_establishment} - {self.visitor}'
-
-    class Meta:
-        unique_together = ('catering_establishment', 'feedback')
 
 
 class CateringEstablishmentTable(models.Model):

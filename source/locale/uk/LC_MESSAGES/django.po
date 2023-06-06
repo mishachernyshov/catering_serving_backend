@@ -57,3 +57,27 @@ msgstr "Адреса"
 
 msgid "Addresses"
 msgstr "Адреси"
+
+msgid "Food"
+msgstr "Кухня"
+
+msgid "Foods"
+msgstr "Кухні"
+
+msgid "Dish"
+msgstr "Страва"
+
+msgid "Dishes"
+msgstr "Страви"
+
+msgid "Dish category"
+msgstr "Категорія страв"
+
+msgid "Dish categories"
+msgstr "Категорії страв"
+
+msgid "Dish subcategory"
+msgstr "Підкатегорія страв"
+
+msgid "Dish subcategories"
+msgstr "Підкатегорії страв"

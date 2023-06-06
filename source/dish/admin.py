@@ -12,8 +12,8 @@ admin.site.register(
         models.DishCategory,
         models.DishSubcategory,
         models.Food,
-        models.CateringEstablishmentDish,
-        models.Discount,
-        models.OrderedDish,
+        # models.CateringEstablishmentDish,
+        # models.Discount,
+        # models.OrderedDish,
     )
 )
